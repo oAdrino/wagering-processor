@@ -20,7 +20,9 @@
     "test:watch": "bun test --watch",
     "test:cov": "bun test --coverage",
     "test:debug": "node --inspect-brk --experimental-vm-modules -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --config ./test/jest-e2e.json"
+    "test:e2e": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --config ./test/jest-e2e.json",
+    "infra:sqs": "bun scripts/setup-queues.ts",
+    "test:multi": "bun scripts/multi-instance-smoke.ts"
   },
   "dependencies": {
     "@mikro-orm/core": "^7.2.8",
@@ -32,7 +34,8 @@
     "@nestjs/core": "^12.0.1",
     "@nestjs/platform-express": "^12.0.1",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "@aws-sdk/client-sqs": "^3.1160.0"
   },
   "devDependencies": {
     "@mikro-orm/cli": "^7.2.8",

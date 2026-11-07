@@ -28,14 +28,13 @@ export class Money {
   static from(props: MoneyProps): Money {
     const { amount, currency } = props;
 
-    //Verifica o formato da moeda
-
+    // A validação de moeda fica no domínio para todas as entradas usarem a mesma regra.
     if (typeof currency !== 'string' || !/^[A-Z]{3}$/.test(currency)) {
       throw new InvalidMoneyError('Moeda inválida.');
     }
 
-    //Exige uma string decimal positiva ou zero,
-    //com exatamente duas casas decimais
+    // Dinheiro chega como string; usar number aqui poderia perder centavos.
+    // A escala é sempre de duas casas, inclusive para valores inteiros.
     if (
       typeof amount !== 'string' ||
       !/^(0|[1-9][0-9]*)\.[0-9]{2}$/.test(amount)
@@ -47,6 +46,7 @@ export class Money {
 
     const [integer, decimal] = amount.split('.');
 
+    // Converto para centavos inteiros antes das contas. Ex.: 10.25 vira 1025n.
     const cents = BigInt(integer) * 100n + BigInt(decimal);
 
     return new Money(cents, currency);

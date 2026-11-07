@@ -1,6 +1,7 @@
 
 import { EntitySchema } from '@mikro-orm/core';
 import { WalletRecord } from './wallet.record';
+import { WagerTransactionRecord } from './wager-transaction.record';
 
 import { LedgerDirection } from
   '../../../domain/entities/wallet-ledger-entry';
@@ -8,7 +9,7 @@ import { LedgerDirection } from
 export class WalletLedgerEntryRecord {
   id!: string;
   wallet!: WalletRecord;
-  transactionId!: string;
+  transaction!: WagerTransactionRecord;
   direction!: LedgerDirection;
   moneyAmount!: string;
   currency!: string;
@@ -34,9 +35,11 @@ export const WalletLedgerEntryRecordSchema = new EntitySchema({
       deleteRule: 'restrict',
     },
 
-    transactionId: {
-      type: 'uuid',
+    transaction: {
+      kind: 'm:1',
+      entity: () => WagerTransactionRecord,
       fieldName: 'transaction_id',
+      deleteRule: 'restrict',
     },
 
     direction: {
@@ -77,7 +80,7 @@ export const WalletLedgerEntryRecordSchema = new EntitySchema({
   uniques: [
     {
       name: 'uq_ledger_wallet_transaction',
-      properties: ['wallet', 'transactionId'],
+      properties: ['wallet', 'transaction'],
     },
   ],
 

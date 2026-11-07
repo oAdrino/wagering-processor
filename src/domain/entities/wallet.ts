@@ -141,6 +141,8 @@ export class Wallet {
   }
 
   private applyBalance(newBalance: Money): BalanceMovement {
+    // Só incremento a versão quando houve uma movimentação de saldo.
+    // LOSS e transações rejeitadas não passam por este método.
     const balanceBefore = this._balance;
 
     this._balance = newBalance;
